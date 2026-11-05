@@ -20,3 +20,7 @@ echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.defau
 # Add ADGuardHome source
 git clone https://github.com/rufengsuixing/luci-app-adguardhome package/luci-app-adguardhome
 chmod -R 755 ./package/luci-app-adguardhome/*
+# Add PassWall2 feed (official, supports OpenWrt 21.02+)
+echo 'src-git passwall2 https://github.com/Openwrt-Passwall/openwrt-passwall2' >>feeds.conf.default
+# Add mosdns feed (official, openwrt-21.02 branch)
+echo 'src-git mosdns https://github.com/sbwml/luci-app-mosdns;openwrt-21.02' >>feeds.conf.default
