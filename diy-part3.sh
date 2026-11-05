@@ -43,3 +43,7 @@ config rule
         option proto 'udp'
         option target 'ACCEPT'
 EOF
+# 修复 mosdns/v2dat 构建失败：上游 feed 补丁把 go.mod 的 go 版本要求写成 1.25.0，
+# 而构建树的 Go 工具链拒绝解析（invalid go version '1.25.0': must match format 1.23）；
+# 相关代码兼容 go 1.23，把补丁中的 go 版本要求改回 1.23
+sed -i 's/^+go 1\.25\.0$/+go 1.23/' feeds/mosdns/v2dat/patches/*.patch feeds/mosdns/mosdns/patches/*.patch
