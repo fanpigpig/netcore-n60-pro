@@ -416,3 +416,18 @@ TARGET_DEVICES += netcore_n60pro-512rom
 MK_EOF
 
 echo "==> 512ROM 机型移植完成。"
+
+# mosdns / luci-app-mosdns init 脚本冲突修复（#7 失败根因）：
+# ImmortalWrt packages 源的 mosdns 5.3.3 会把上游自带的
+# scripts/openwrt/mosdns-init-openwrt 装为 /etc/init.d/mosdns，
+# 而 sbwml 的 luci-app-mosdns 自带 root/etc/init.d/mosdns，
+# 两包同时选中时 apk 拒绝覆盖，导致 package/install 失败。
+# luci-app-mosdns 的 init 脚本是功能完整的那个，保留它；
+# 这里只删 mosdns 包里的那一行安装命令（若 mosdns 来自 sbwml 源
+# 本身不带 init 脚本，则以下命令是空操作）。
+echo "==> 去除 mosdns 包自带的 init 脚本（避免与 luci-app-mosdns 冲突）"
+for _mosdns_mk in package/feeds/packages/mosdns/Makefile feeds/packages/net/mosdns/Makefile; do
+	if [ -f "$_mosdns_mk" ]; then
+		sed -i '/mosdns-init-openwrt/d' "$_mosdns_mk"
+	fi
+done
