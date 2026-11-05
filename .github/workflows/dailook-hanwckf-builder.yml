@@ -95,7 +95,7 @@ jobs:
       run: |
         cd openwrt
         make defconfig
-        if ! grep -q '^CONFIG_TARGET_mediatek_filogic_DEVICE_netcore_n60pro_512rom=y' .config; then echo "ERROR: defconfig 后未选中 netcore_n60pro-512rom，当前设备行："; grep '^CONFIG_TARGET.*DEVICE.*=y' .config || true; exit 1; fi
+        if ! grep -q '^CONFIG_TARGET_mediatek_filogic_DEVICE_netcore_n60pro-512rom=y' .config; then echo "ERROR: defconfig 后未选中 netcore_n60pro-512rom，当前设备行："; grep '^CONFIG_TARGET.*DEVICE.*=y' .config || true; exit 1; fi
         if grep -q '^CONFIG_TARGET_mediatek_filogic_DEVICE_openwrt_one=y' .config; then echo "ERROR: 构建回退到了默认机型 openwrt_one"; exit 1; fi
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
